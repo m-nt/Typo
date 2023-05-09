@@ -35,19 +35,20 @@ namespace RTLTMPro
         Qaf = 0xFED5,
         Kaf = 0xFED9,
         Lam = 0xFEDD,
+        // La = 0xFEFC,
         Meem = 0xFEE1,
         Noon = 0xFEE5,
         Heh = 0xFEE9,
         Waw = 0xFEED,
         AlefMaksura = 0xFEEF,
         Yeh = 0xFEF1,
-        
+
         FarsiYeh = 0xFBFC,
         Peh = 0xFB56,
         TCheh = 0xFB7A,
         Jeh = 0xFB8A,
         Keheh = 0xFB8E, // persian kaf
         Gaf = 0xFB92,
-	
+
     }
 }

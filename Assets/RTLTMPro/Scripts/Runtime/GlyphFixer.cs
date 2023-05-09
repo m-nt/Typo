@@ -32,7 +32,68 @@ namespace RTLTMPro
             [(char)EnglishNumbers.Nine] = (char)HinduNumbers.Nine,
         };
 
+        public static void Fix_Taged(FastStringBuilder output, FastStringBuilder originalshape, bool farsi)
+        {
 
+            // FixYah(output, farsi);
+            UnityEngine.Debug.Log(output.ToDebugString());
+            FixLa(output);
+            UnityEngine.Debug.Log(output.ToDebugString());
+            FixLa(originalshape);
+            int j = 0; // write index
+            for (int i = 0; i < output.Length; i++)
+            {
+                int iChar = output.Get(i);
+
+                if (iChar < 0xFFFF && TextUtils.IsGlyphFixedArabicCharacter((char)iChar))
+                {
+                    int jChar = originalshape.Get(j);
+
+                    if (jChar < 0xFFFF && TextUtils.IsGlyphFixedArabicCharacter((char)jChar))
+                    {
+                        // UnityEngine.Debug.Log(jChar.ToString("X"));
+                        // UnityEngine.Debug.Log(iChar.ToString("X"));
+                        int jjChar = originalshape.Get(j + 1);
+                        if (jjChar.ToString("X") != "FEFC")
+                        {
+                            // UnityEngine.Debug.Log("iChar: " + (char)iChar + "-" + iChar + "\njChar: " + (char)jChar + "-" + jChar);
+                        }
+                        output.Replace(iChar, jChar);
+
+
+                        // if (iChar == jChar - 3) { output.Replace(iChar, jChar); break; }
+                        // if (iChar == jChar - 2) { output.Replace(iChar, jChar); break; }
+                        // if (iChar == jChar - 1) { output.Replace(iChar, jChar); break; }
+
+                        // if (iChar == jChar + 1) { output.Replace(iChar, jChar); break; }
+                        // if (iChar == jChar + 2) { output.Replace(iChar, jChar); break; }
+                        // if (iChar == jChar + 3) { output.Replace(iChar, jChar); break; }
+                        j++;
+                    }
+                }
+            }
+            // UnityEngine.Debug.Log(output.ToDebugString());
+            // UnityEngine.Debug.Log(originalshape.ToDebugString());
+
+        }
+        public static void FixLa(FastStringBuilder str)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                int iChar = str.Get(i);
+                if (iChar < 0xFFFF && TextUtils.IsGlyphFixedArabicCharacter((char)iChar))
+                {
+
+                    string jStr = iChar.ToString("X");
+                    if (jStr == "FEFC" || jStr == "FEFB")
+                    {
+                        str.Replace(iChar, 0xFE8E);
+                        str.Insert(i + 1, 0xFEE0);
+                    }
+                    // if (jStr == "FE8E" && jStr_next == "")
+                }
+            }
+        }
         /// <summary>
         ///     Fixes the shape of letters based on their position.
         /// </summary>
@@ -77,13 +138,16 @@ namespace RTLTMPro
                     if (IsMiddleLetter(input, i))
                     {
                         output.Set(i, (char)(converted + 3));
-                    } else if (IsFinishingLetter(input, i))
+                    }
+                    else if (IsFinishingLetter(input, i))
                     {
                         output.Set(i, (char)(converted + 1));
-                    } else if (IsLeadingLetter(input, i))
+                    }
+                    else if (IsLeadingLetter(input, i))
                     {
                         output.Set(i, (char)(converted + 2));
-                    } else
+                    }
+                    else
                     {
                         output.Set(i, (char)converted);
                     }
@@ -102,7 +166,8 @@ namespace RTLTMPro
                 if (fixTextTags)
                 {
                     FixNumbersOutsideOfTags(output, farsi);
-                } else
+                }
+                else
                 {
                     FixNumbers(output, farsi);
                 }
@@ -122,7 +187,8 @@ namespace RTLTMPro
                 if (farsi && text.Get(i) == (int)ArabicGeneralLetters.Yeh)
                 {
                     text.Set(i, (char)ArabicGeneralLetters.FarsiYeh);
-                } else if (farsi == false && text.Get(i) == (int)ArabicGeneralLetters.FarsiYeh)
+                }
+                else if (farsi == false && text.Get(i) == (int)ArabicGeneralLetters.FarsiYeh)
                 {
                     text.Set(i, (char)ArabicGeneralLetters.Yeh);
                 }
@@ -212,7 +278,8 @@ namespace RTLTMPro
                         if ((j == i + 1 && jChar == ' ') || jChar == '<')
                         {
                             break;
-                        } else if (jChar == '>')
+                        }
+                        else if (jChar == '>')
                         {
                             i = j;
                             sawValidTag = true;
@@ -289,7 +356,7 @@ namespace RTLTMPro
                                           currentIndexLetter != (int)ArabicGeneralLetters.Jeh &&
                                           currentIndexLetter != (int)ArabicGeneralLetters.Waw &&
                                           currentIndexLetter != (int)SpecialCharacters.ZeroWidthNoJoiner;
-                                          
+
 
             bool isNextLetterConnectable = index < letters.Length - 1 &&
                                            (nextIndexLetter < 0xFFFF && TextUtils.IsGlyphFixedArabicCharacter((char)nextIndexLetter)) &&

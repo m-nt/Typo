@@ -132,10 +132,32 @@ namespace RTLTMPro
                 array[pos + i] = str.array[offset + i];
             }
         }
+        public void Insert(int pos, int[] str, int offset, int count)
+        {
+            // if (str == this) throw new InvalidOperationException("You cannot pass the same string builder to insert");
+            if (count == 0) return;
+
+            length += count;
+            EnsureCapacity(length, true);
+
+            for (int i = length - count - 1; i >= pos; i--)
+            {
+                array[i + count] = array[i];
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                array[pos + i] = str[offset + i];
+            }
+        }
 
         public void Insert(int pos, FastStringBuilder str)
         {
             Insert(pos, str, 0, str.length);
+        }
+        public void Insert(int pos, int[] str)
+        {
+            Insert(pos, str, 0, str.Length);
         }
 
         public void Insert(int pos, int ch)
@@ -200,7 +222,10 @@ namespace RTLTMPro
             for (int i = 0; i < length; i++)
                 output.Append(array[start + i]);
         }
-
+        public string get_str(int index)
+        {
+            return char.ConvertFromUtf32(array[index]);
+        }
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -230,6 +255,7 @@ namespace RTLTMPro
                     array[i] = newChar;
             }
         }
+
 
         public void Replace(FastStringBuilder oldStr, FastStringBuilder newStr)
         {
@@ -329,5 +355,6 @@ namespace RTLTMPro
             for (int i = 0; i < src.Length; i++)
                 dst[i] = src[i];
         }
+
     }
 }

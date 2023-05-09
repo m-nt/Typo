@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &405282997
 RectTransform:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8b15cee8886c640a3c1f5634ccf5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: "\u0633\u0644\u0627\u0645"
+  name: "\u0631\u0647\u0627\u06CC\u06CC"
   tmp: {fileID: 0}
 --- !u!23 &1127872589
 MeshRenderer:
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<color=yellow>\uFEB3\uFEE0\uFEDE</color><color=yellow>\uFEDD</color>\uFE8D\uFEE1"
+  m_text: "\uFEAD\uFEEB\uFE8E\uFBFE\uFBFD"
   m_isRightToLeft: 1
   m_fontAsset: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   m_sharedMaterial: {fileID: -6949820610600499109, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -624,7 +624,7 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "<color=yellow>\u0633\u0644\u0644</color><color=yellow>\u0644</color>\u0627\u0645"
+  originalText: "\u0631\u0647\u0627\u06CC\u06CC"
   fixTags: 1
   forceFix: 0
 --- !u!1 &1308583843
@@ -909,7 +909,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1435054036}
   m_CullTransparentMesh: 1
---- !u!1001 &1559682349
+--- !u!1001 &1936500263
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2

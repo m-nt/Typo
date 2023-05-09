@@ -121,15 +121,25 @@ namespace RTLTMPro
 
             havePropertiesChanged = true;
         }
+        public void add_tag(string tag, string seprator, int index)
+        {
+            FastStringBuilder text = new FastStringBuilder(RTLSupport.DefaultBufferSize);
+            text.SetValue(base.text);
+            string taged_value = tag.Replace(seprator, text.get_str(index));
+            text.Remove(index, 1);
+            text.Insert(index, taged_value);
+            base.text = text.ToString();
+        }
 
         private string GetFixedText(string input)
         {
 
             if (string.IsNullOrEmpty(input))
                 return input;
-            finalText_untaged = finalText;
+            // finalText_untaged = finalText;
             finalText.Clear();
-            RTLSupport.FixRTL(input, finalText, finalText_untaged, farsi, fixTags, preserveNumbers);
+            // RTLSupport.FixRTL(input, finalText, finalText_untaged, farsi, fixTags, preserveNumbers);
+            RTLSupport.FixRTL(input, finalText, farsi, fixTags, preserveNumbers);
             finalText.Reverse();
 
             return finalText.ToString();

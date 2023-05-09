@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using RTLTMPro;
 public class KeyboardTest : MonoBehaviour
 {
     public string name = "TEST";
-    public TextMeshProUGUI tmp;
+    public RTLTextMeshPro tmp;
     string tag = "<color=yellow>&SPT&</color>";
     int index = 0;
     int height = 23;
@@ -13,16 +14,17 @@ public class KeyboardTest : MonoBehaviour
     void Start()
     {
         KeyboardCapture.self.registeredKeys.AddListener(OnKey);
-        tmp = this.transform.GetComponent<TextMeshProUGUI>();
+        tmp = this.transform.GetComponent<RTLTextMeshPro>();
         tmp.text = name.ToLower();
     }
     public void OnKey(KeyboardType key)
     {
         if (index >= name.Length) return;
-        if (name[index].ToString() == key.Key)
+        if (name[index].ToString().ToUpper() == key.Key)
         {
-            tmp.text = tmp.text.Remove(index * height, 1);
-            tmp.text = tmp.text.Insert(index * height, add_tag(key.Key));
+            // Debug.Log(key.Key);
+            tmp.add_tag(tag, "&SPT&", index * height);
+            // tmp.text = tmp.text.Insert(index * height, add_tag(key.Key));
             index++;
             if (index >= name.Length)
             {

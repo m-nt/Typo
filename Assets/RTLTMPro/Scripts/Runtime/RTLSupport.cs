@@ -38,6 +38,7 @@ namespace RTLTMPro
             TashkeelFixer.RemoveTashkeel(inputBuilder);
             // The shape of the letters in shapeFixedLetters is fixed according to their position in word. But the flow of the text is not fixed.
             GlyphFixer.Fix(inputBuilder, glyphFixerOutput, preserveNumbers, farsi, fixTextTags);
+
             //Restore tashkeel to their places.
             TashkeelFixer.RestoreTashkeel(glyphFixerOutput);
 
@@ -46,7 +47,32 @@ namespace RTLTMPro
             LigatureFixer.Fix(glyphFixerOutput, output, farsi, fixTextTags, preserveNumbers);
             if (fixTextTags)
             {
-                RichTextFixer.Fix(output, originalShapes);
+                RichTextFixer.Fix(output);
+                GlyphFixer.Fix_Taged(output, originalShapes, farsi);
+                // GlyphFixer.Fix(glyphFixerOutput, output, preserveNumbers, farsi, fixTextTags);
+            }
+            inputBuilder.Clear();
+        }
+        public static void FixRTL(
+            string input,
+            FastStringBuilder output,
+            bool farsi = true,
+            bool fixTextTags = true,
+            bool preserveNumbers = false)
+        {
+            inputBuilder.SetValue(input);
+            TashkeelFixer.RemoveTashkeel(inputBuilder);
+            // The shape of the letters in shapeFixedLetters is fixed according to their position in word. But the flow of the text is not fixed.
+            GlyphFixer.Fix(inputBuilder, glyphFixerOutput, preserveNumbers, farsi, fixTextTags);
+            //Restore tashkeel to their places.
+            TashkeelFixer.RestoreTashkeel(glyphFixerOutput);
+
+            TashkeelFixer.FixShaddaCombinations(glyphFixerOutput);
+            // Fix flow of the text and put the result in FinalLetters field
+            LigatureFixer.Fix(glyphFixerOutput, output, farsi, fixTextTags, preserveNumbers);
+            if (fixTextTags)
+            {
+                RichTextFixer.Fix(output);
             }
             inputBuilder.Clear();
         }
