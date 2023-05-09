@@ -128,8 +128,6 @@ namespace RTLTMPro
 
                 base.text = GetFixedText(originalText);
 
-                // Debug.Log("fixed: \n" + original_untaged_fixed.ToString());
-                // Debug.Log("untaged: \n" + original_untaged.ToString());
             }
 
             havePropertiesChanged = true;
@@ -138,11 +136,11 @@ namespace RTLTMPro
         {
             FastStringBuilder text = new FastStringBuilder(RTLSupport.DefaultBufferSize);
             text.SetValue(originalText);
-            // Debug.Log(text.ToDebugString());
+
             string taged_value = tag.Replace(seprator, text.get_str(index));
             text.Remove(index, 1);
             text.Insert(index, taged_value);
-            // Debug.Log(text.ToString());
+
             originalText = text.ToString();
             UpdateText();
         }
@@ -152,7 +150,6 @@ namespace RTLTMPro
                 return input;
 
             finalText.Clear();
-            // Debug.Log(original_untaged_fixed.ToDebugString());
 
             RTLSupport.FixRTL(input, finalText, original_untaged_fixed, farsi, fixTags, preserveNumbers);
             // RTLSupport.FixRTL(input, finalText, farsi, fixTags, preserveNumbers);

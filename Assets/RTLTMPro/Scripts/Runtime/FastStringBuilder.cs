@@ -255,6 +255,28 @@ namespace RTLTMPro
                     array[i] = newChar;
             }
         }
+        public void ReplaceOne(int oldChar, int newChar)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                if (array[i] == oldChar)
+                {
+                    array[i] = newChar;
+                    break;
+                }
+            }
+        }
+        public void ReplaceOne(int oldChar, int newChar, int start)
+        {
+            for (int i = start; i < length; i++)
+            {
+                if (array[i] == oldChar)
+                {
+                    array[i] = newChar;
+                    break;
+                }
+            }
+        }
 
 
         public void Replace(FastStringBuilder oldStr, FastStringBuilder newStr)

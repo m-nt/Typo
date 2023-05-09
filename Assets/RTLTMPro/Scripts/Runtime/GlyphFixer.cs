@@ -35,10 +35,7 @@ namespace RTLTMPro
         public static void Fix_Taged(FastStringBuilder output, FastStringBuilder originalshape, bool farsi)
         {
 
-            // FixYah(output, farsi);
-            UnityEngine.Debug.Log(output.ToDebugString());
             FixLa(output);
-            UnityEngine.Debug.Log(output.ToDebugString());
             FixLa(originalshape);
             int j = 0; // write index
             for (int i = 0; i < output.Length; i++)
@@ -51,30 +48,36 @@ namespace RTLTMPro
 
                     if (jChar < 0xFFFF && TextUtils.IsGlyphFixedArabicCharacter((char)jChar))
                     {
-                        // UnityEngine.Debug.Log(jChar.ToString("X"));
-                        // UnityEngine.Debug.Log(iChar.ToString("X"));
-                        int jjChar = originalshape.Get(j + 1);
-                        if (jjChar.ToString("X") != "FEFC")
-                        {
-                            // UnityEngine.Debug.Log("iChar: " + (char)iChar + "-" + iChar + "\njChar: " + (char)jChar + "-" + jChar);
-                        }
-                        output.Replace(iChar, jChar);
-
-
-                        // if (iChar == jChar - 3) { output.Replace(iChar, jChar); break; }
-                        // if (iChar == jChar - 2) { output.Replace(iChar, jChar); break; }
-                        // if (iChar == jChar - 1) { output.Replace(iChar, jChar); break; }
-
-                        // if (iChar == jChar + 1) { output.Replace(iChar, jChar); break; }
-                        // if (iChar == jChar + 2) { output.Replace(iChar, jChar); break; }
-                        // if (iChar == jChar + 3) { output.Replace(iChar, jChar); break; }
+                        output.ReplaceOne(iChar, jChar, i);
                         j++;
                     }
                 }
             }
-            // UnityEngine.Debug.Log(output.ToDebugString());
-            // UnityEngine.Debug.Log(originalshape.ToDebugString());
 
+        }
+        public static void FixYah(FastStringBuilder str)
+        {
+            int j = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                int iChar = str.Get(i);
+                if (iChar < 0xFFFF && TextUtils.IsGlyphFixedArabicCharacter((char)iChar))
+                {
+
+
+                    int iChar_next = str.Get(j);
+
+                    string jStr = iChar.ToString("X");
+                    string jStr_next = iChar_next.ToString("X");
+                    //  && jStr_next == "FBFC"
+                    if (i == 0 && jStr == "FBFC")
+                    {
+                        str.ReplaceOne(iChar, 0xFBFD);
+                    }
+
+                    j++;
+                }
+            }
         }
         public static void FixLa(FastStringBuilder str)
         {
@@ -87,10 +90,10 @@ namespace RTLTMPro
                     string jStr = iChar.ToString("X");
                     if (jStr == "FEFC" || jStr == "FEFB")
                     {
-                        str.Replace(iChar, 0xFE8E);
+                        str.ReplaceOne(iChar, 0xFE8E, i);
                         str.Insert(i + 1, 0xFEE0);
                     }
-                    // if (jStr == "FE8E" && jStr_next == "")
+
                 }
             }
         }

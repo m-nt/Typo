@@ -331,15 +331,16 @@ namespace RTLTMPro
             {
                 return true;
             }
+            // Special La with sin and alef
             if (ch == 0xFEFC)
             {
                 return true;
             }
+            // Special La with alef
             if (ch == 0xFEFB)
             {
                 return true;
             }
-
             if (ch == 0xFEF5)
             {
                 return true;

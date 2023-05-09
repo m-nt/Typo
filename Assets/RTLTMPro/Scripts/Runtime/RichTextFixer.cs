@@ -26,32 +26,7 @@ namespace RTLTMPro
             }
         }
 
-        /// <summary>
-        ///     Fixes rich text tags in input string and returns the result.
-        /// </summary>
-        public static void Fix(FastStringBuilder text, FastStringBuilder originalShapes)
-        {
-            // UnityEngine.Debug.Log(text.ToString());
-            for (int i = 0; i < text.Length; i++)
-            {
-                FindTag(text, i, out Tag tag);
 
-                // If we couldn't find a tag, end the process
-                if (tag.Type == TagType.None)
-                {
-                    break;
-                }
-
-                text.Reverse(tag.Start, tag.End - tag.Start + 1);
-                i = tag.End;
-            }
-            for (int i = 0; i < originalShapes.Length; i++)
-            {
-                text.Replace(originalShapes.Get(i), originalShapes.Get(i));
-            }
-            // UnityEngine.Debug.Log("Text: \n" + text.ToDebugString());
-            // UnityEngine.Debug.Log("Shapes: \n" + originalShapes.ToDebugString());
-        }
         /// <summary>
         ///     Fixes rich text tags in input string and returns the result.
         /// </summary>
@@ -74,7 +49,7 @@ namespace RTLTMPro
             }
         }
         /// <summary>
-        ///     Fixes rich text tags in input string and returns the result.
+        ///     Fixes rich text untaged in input string and returns the result.
         /// </summary>
         public static void GetUntaged(string text, FastStringBuilder output)
         {
