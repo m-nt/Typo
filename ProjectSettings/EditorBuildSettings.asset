@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Typo - alpha/Develeopment Scenes/Keyboard.unity
-    guid: d52bc6530265eca468815f683b0db5ab
+    path: Assets/Typo/Develeopment Scenes/Enemy.unity
+    guid: b4a4db42a3b66e940805a9b6a22a025b
   m_configObjects: {}
