@@ -9846,7 +9846,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFEAB"
+  m_text: "\uFB56"
   m_isRightToLeft: 1
   m_fontAsset: {fileID: 11400000, guid: cc1bff1d7128b714898233c43b3fbce6, type: 2}
   m_sharedMaterial: {fileID: -7038563255578989187, guid: cc1bff1d7128b714898233c43b3fbce6, type: 2}

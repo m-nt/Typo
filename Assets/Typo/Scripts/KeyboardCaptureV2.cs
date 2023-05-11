@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
-public enum ShateState
+public enum ShateStateV2
 {
     PRIMARY,
     SECONDRAY
 }
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class KeyboardCapture : MonoBehaviour
+public class KeyboardCaptureV2 : MonoBehaviour
 {
-    public static KeyboardCapture self;
-    public float holdTime = 0.3f, reactionTime = 0.1f;
+    public static KeyboardCaptureV2 self;
+    public float holdTime = 0.1f;
     public UnityEvent<KeyboardType> registeredKeys;
     public Color primary, secondary, scaled;
     public TMP_FontAsset font;
@@ -22,8 +22,6 @@ public class KeyboardCapture : MonoBehaviour
     private Camera _camera;
     bool touchStarted = false;
     float touchTime = 0f;
-    private Collider2D _hoveredCollider;
-    bool is_in_child = false;
 
     // Event delegates and events
     public delegate void TouchEvent(Vector2 position);
@@ -80,78 +78,28 @@ public class KeyboardCapture : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(position, Vector2.zero);
         if (hit.collider != null)
         {
-            StartCoroutine(HandleTouchBeganEnumerator(hit.collider));
+            Debug.Log("Touch began: " + hit.collider.name);
         }
-    }
-    IEnumerator HandleTouchBeganEnumerator(Collider2D collider)
-    {
-        yield return new WaitForSeconds(reactionTime);
-        collider.TryGetComponent<KeyboardType>(out KeyboardType key);
-        key.ChangeColor(ShateState.SECONDRAY);
-        key.ActivatedDeactivateScaledKeys(true);
-        _hoveredCollider = collider;
-        touchStarted = true;
-        touchTime = Time.time;
     }
 
     void HandleTouchMoved(Vector2 position)
     {
         // Your implementation here
-        Collider2D collider = Physics2D.OverlapPoint(position);
-        if (collider != null && collider != _hoveredCollider)
+        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.zero);
+        if (hit.collider != null)
         {
-            StartCoroutine(HandleTouchMovedExitedEnumerator(collider));
+            Debug.Log("Touch Moved: " + hit.collider.name);
+        }
+    }
 
-        }
-        else if (collider == null && _hoveredCollider != null)
-        {
-            _hoveredCollider.TryGetComponent<KeyboardType>(out KeyboardType key);
-            StartCoroutine(HandleTouchMovedEnteredEnumerator(key));
-        }
-    }
-    IEnumerator HandleTouchMovedExitedEnumerator(Collider2D collider)
-    {
-        yield return new WaitForSeconds(reactionTime);
-        touchStarted = true;
-        touchTime = Time.time;
-        collider.TryGetComponent<KeyboardType>(out KeyboardType key);
-        key.ChangeColor(ShateState.SECONDRAY);
-        key.ActivatedDeactivateScaledKeys(true);
-        _hoveredCollider = collider;
-    }
-    IEnumerator HandleTouchMovedEnteredEnumerator(KeyboardType key)
-    {
-        yield return new WaitForSeconds(reactionTime);
-        key.ActivatedDeactivateChildKeysFromChild(false);
-        key.ActivatedDeactivateChildKeys(false);
-        key.ChangeColor(ShateState.PRIMARY);
-        key.ActivatedDeactivateScaledKeys(false);
-        touchStarted = false;
-        touchTime = 0;
-        _hoveredCollider = null;
-    }
     void HandleTouchEnded(Vector2 position)
     {
         // Your implementation here
         RaycastHit2D hit = Physics2D.Raycast(position, Vector2.zero);
         if (hit.collider != null)
         {
-            // A collider was hit
-            hit.collider.TryGetComponent<KeyboardType>(out KeyboardType key);
-            StartCoroutine(HandleTouchEndedEnumerator(key));
+            Debug.Log("Touch Ended: " + hit.collider.name);
         }
-    }
-    IEnumerator HandleTouchEndedEnumerator(KeyboardType key)
-    {
-        yield return new WaitForSeconds(reactionTime);
-
-        registeredKeys.Invoke(key);
-        key.ActivatedDeactivateChildKeysFromChild(false);
-        key.ActivatedDeactivateChildKeys(false);
-        key.ChangeColor(ShateState.PRIMARY);
-        key.ActivatedDeactivateScaledKeys(false);
-        touchStarted = false;
-        touchTime = 0;
     }
     private void Update()
     {
@@ -191,17 +139,8 @@ public class KeyboardCapture : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             OnTouchEnded?.Invoke(mousePosition);
         }
-        // check if the touch was a hold for child objects
-        if (touchStarted && Time.time - touchTime > holdTime)
-        {
-            if (!_hoveredCollider) return;
-            _hoveredCollider.TryGetComponent<KeyboardType>(out KeyboardType key);
-            key.ActivatedDeactivateChildKeys(true);
-            touchStarted = false;
-            is_in_child = true;
-        }
     }
-    void XXXUpdate()
+    void xxxUpdate()
     {
 
         // Click begins on the keyboard
