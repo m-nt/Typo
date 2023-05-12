@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour, IKeyboard
     public float speed;
     public string Name { get; set; }
     public TextColor TagColor;
+    public Color Primary, Secondary;
 
     #endregion
     # region Private Variables
@@ -50,8 +51,10 @@ public class Enemy : MonoBehaviour, IKeyboard
     // Start is called before the first frame update
     void Start()
     {
-
-        KeyboardCapture.self.registeredKeys.AddListener(OnKey);
+        if (KeyboardCapture.self != null)
+            KeyboardCapture.self.registeredKeys.AddListener(OnKey);
+        if (KeyboardCaptureV2.self != null)
+            KeyboardCaptureV2.self.registeredKeys.AddListener(OnKeyBuiltIn);
         // Test, remove later
         // Inintialize("hello", 0.5f, new Vector3(0, -3, -5));
 
@@ -80,12 +83,18 @@ public class Enemy : MonoBehaviour, IKeyboard
     #region Public Properties
     public void OnKey(KeyboardType keyType)
     {
-
-
+        KeyboardEventHandler(keyType.Key);
+    }
+    public void OnKeyBuiltIn(string keyType)
+    {
+        KeyboardEventHandler(keyType);
+    }
+    void KeyboardEventHandler(string keyType)
+    {
         // Check if the characters of the enemy is filled, prevent overflow error
         if (index >= Name.Length) return;
         // Check if the key clicked/touched is the corresponding character of the enemy
-        if (Name[index].ToString().ToUpper() == keyType.Key)
+        if (Name[index].ToString().ToUpper() == keyType)
         {
             if (index <= 0)
             {
@@ -94,6 +103,7 @@ public class Enemy : MonoBehaviour, IKeyboard
             }
             // Check is this enemy is selected or not
             if (EnemyManager.self.SelectedEnemy != gameObject) return;
+            this.GetComponentInChildren<SpriteRenderer>().color = Secondary;
             // add the tag to the corresponding character
             text.add_tag(Tag.Tag, Tag.Seperator, index * Tag.Height);
             index++;

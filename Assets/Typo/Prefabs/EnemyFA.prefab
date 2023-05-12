@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -143,7 +143,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  TagColor: 3
+  TagColor: 0
+  Primary: {r: 1, g: 1, b: 1, a: 1}
+  Secondary: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &4600498056544037703
 MonoBehaviour:
   m_ObjectHideFlags: 0

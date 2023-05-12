@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Typo/Develeopment Scenes/Enemy.unity
-    guid: b4a4db42a3b66e940805a9b6a22a025b
+    path: Assets/Typo/Develeopment Scenes/Enemy V2.unity
+    guid: 4675b6bfc90738b4ab07b005c3f3e0c4
   m_configObjects: {}
