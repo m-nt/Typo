@@ -27,7 +27,8 @@ public struct ColorTag
     }
 }
 
-
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class Enemy : MonoBehaviour, IKeyboard
 {
     # region Public Variables
@@ -35,16 +36,22 @@ public class Enemy : MonoBehaviour, IKeyboard
     public string Name { get; set; }
     public TextColor TagColor;
     public Color Primary, Secondary;
+    public Vector2 forceDirection; // The direction of the force to apply
+    public float min_force_magnitude, max_force_magnitude; // The minimum
 
     #endregion
     # region Private Variables
     private RTLTextMeshPro3D text;
+    private float forceMagnitude; // The magnitude of the force to apply
 
     private float Duration;
     private Vector3 Destination;
     private IEnumerator TransformCoroutine;
     private ColorTag Tag;
     private int index;
+
+
+    private Rigidbody2D rb;
     #endregion
 
     #region MonoBehaviour
@@ -57,26 +64,38 @@ public class Enemy : MonoBehaviour, IKeyboard
             KeyboardCaptureV2.self.registeredKeys.AddListener(OnKeyBuiltIn);
         // Test, remove later
         // Inintialize("hello", 0.5f, new Vector3(0, -3, -5));
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
     #endregion
 
     #region Private Properties
-    private IEnumerator SmoothTransformCoroutine()
+    private void FixedUpdate()
     {
-        Vector3 startPosition = transform.position;
-        float startTime = Time.time;
+        Vector2 force = forceDirection.normalized * forceMagnitude;
+        Vector2 velocity = rb.velocity;
+        Vector2 velocityChange = force - velocity;
+        rb.AddForce(velocityChange, ForceMode2D.Impulse);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
+        collision.GetContacts(contacts);
 
-        while (Time.time - startTime < Duration)
+        foreach (ContactPoint2D contact in contacts)
         {
-            float t = (Time.time - startTime) / Duration;
-            transform.position = Vector3.Lerp(startPosition, Destination, t);
-            yield return null;
+            Vector2 normal = contact.normal;
+            rb.AddForce(normal * forceMagnitude * 0.5f, ForceMode2D.Impulse);
         }
+    }
 
-        transform.position = Destination;
-        TransformCoroutine = null;
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Finish")
+        {
+            if (EnemyManager.self.score > 0) EnemyManager.self.score = -1;
+            Destroy(gameObject);
+        }
     }
     #endregion
 
@@ -111,6 +130,7 @@ public class Enemy : MonoBehaviour, IKeyboard
             {
                 // what gonna happens to the Enemy
                 Debug.Log("enemy: " + Name + " is destroyed !");
+                EnemyManager.self.score = 1;
                 Destroy(gameObject);
                 // TODO: add destroy affect
             }
@@ -123,11 +143,13 @@ public class Enemy : MonoBehaviour, IKeyboard
         text.text = Name.ToLower();
         text.font = TMP_Font == null ? text.font : TMP_Font;
         Destination = target;
+        forceDirection = (target - this.transform.position).normalized;
+        forceMagnitude = Random.Range(min_force_magnitude, max_force_magnitude);
         this.speed = speed;
         Duration = Vector3.Distance(transform.position, target) / speed;
         TagColor = tagColor;
         Tag = new ColorTag(tagColor);
-        SmoothlyTransform();
+        // SmoothlyTransform();
     }
     public void SmoothlyTransform()
     {
@@ -138,6 +160,21 @@ public class Enemy : MonoBehaviour, IKeyboard
 
         TransformCoroutine = SmoothTransformCoroutine();
         StartCoroutine(TransformCoroutine);
+    }
+    private IEnumerator SmoothTransformCoroutine()
+    {
+        Vector3 startPosition = transform.position;
+        float startTime = Time.time;
+
+        while (Time.time - startTime < Duration)
+        {
+            float t = (Time.time - startTime) / Duration;
+            transform.position = Vector3.Lerp(startPosition, Destination, t);
+            yield return null;
+        }
+
+        transform.position = Destination;
+        TransformCoroutine = null;
     }
     #endregion
 
