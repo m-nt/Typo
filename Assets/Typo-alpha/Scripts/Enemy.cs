@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour, IKeyboard
         // Check if the characters of the enemy is filled, prevent overflow error
         if (index >= Name.Length) return;
         // Check if the key clicked/touched is the corresponding character of the enemy
-        if (Name[index].ToString().ToUpper() == keyType)
+        if (Name[index].ToString().ToUpper() == keyType.ToUpper())
         {
             if (index <= 0)
             {
