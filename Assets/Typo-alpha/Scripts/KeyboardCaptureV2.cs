@@ -5,12 +5,12 @@ using UnityEngine.Events;
 using TMPro;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class KeyboardCaptureV2 : MonoBehaviour
 {
     public static KeyboardCaptureV2 self;
     private TouchScreenKeyboard keyboard;
-    private BoxCollider2D Collider;
+    public BoxCollider2D Collider;
+    public BoxCollider2D left, right;
     private Camera _camera;
     public UnityEvent<string> registeredKeys;
     private void Awake()
@@ -24,7 +24,7 @@ public class KeyboardCaptureV2 : MonoBehaviour
     }
     private void Start()
     {
-        Collider = GetComponent<BoxCollider2D>();
+        // Collider = GetComponent<BoxCollider2D>();
         SetColliderSize();
         // Open the on-screen keyboard on mobile devices
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -41,6 +41,10 @@ public class KeyboardCaptureV2 : MonoBehaviour
         float cameraWidth = cameraHeight * screenAspect;
         Collider.size = new Vector2(cameraWidth, cameraHeight / 3);
         Collider.offset = new Vector2(0, -cameraHeight / 3);
+        left.size = new Vector2(cameraWidth / 5, cameraHeight);
+        left.offset = new Vector2(-cameraWidth / 2 - left.size.x / 2, 0);
+        right.size = new Vector2(cameraWidth / 5, cameraHeight);
+        right.offset = new Vector2(+cameraWidth / 2 + right.size.x / 2, 0);
     }
     private void OnGUI()
     {

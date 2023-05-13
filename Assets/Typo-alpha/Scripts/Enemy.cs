@@ -70,6 +70,10 @@ public class Enemy : MonoBehaviour, IKeyboard
     #endregion
 
     #region Private Properties
+    private void OnDestroy()
+    {
+        EnemyManager.self.deadEnemy = 1; // Remove 1 enemy from the EnemyManager
+    }
     private void FixedUpdate()
     {
         Vector2 force = forceDirection.normalized * forceMagnitude;
@@ -85,7 +89,9 @@ public class Enemy : MonoBehaviour, IKeyboard
         foreach (ContactPoint2D contact in contacts)
         {
             Vector2 normal = contact.normal;
-            rb.AddForce(normal * forceMagnitude * 0.5f, ForceMode2D.Impulse);
+            Debug.LogError(normal);
+            forceDirection = new Vector2(Mathf.Abs(forceDirection.x) * normal.x, forceDirection.y);
+            // rb.AddForce(normal * forceMagnitude * forceMagnitude, ForceMode2D.Impulse);
         }
     }
 
@@ -136,6 +142,7 @@ public class Enemy : MonoBehaviour, IKeyboard
             }
         }
     }
+
     public void Inintialize(string name, float speed, Vector3 target, TMP_FontAsset TMP_Font = null, TextColor tagColor = TextColor.undefined)
     {
         Name = name;

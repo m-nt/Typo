@@ -111,6 +111,14 @@ public class DictionaryType
             return list[i].value[j];
         }
     }
+    public void RandomValues(int count, ref string[] values)
+    {
+        values = new string[count];
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = RandomValue;
+        }
+    }
     void Append(string value, ref string[] array)
     {
         int index = array.Length;
