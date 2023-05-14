@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Typo-alpha/Develeopment Scenes/Enemy V2.unity
+    path: Assets/Typo-alpha/Develeopment Scenes/Menu.unity
+    guid: c31f20d930ca2b54cba091a24b3f1c29
+  - enabled: 1
+    path: Assets/Typo-alpha/Develeopment Scenes/Enemy V2FA.unity
     guid: 4675b6bfc90738b4ab07b005c3f3e0c4
+  - enabled: 1
+    path: Assets/Typo-alpha/Develeopment Scenes/Enemy V2EN.unity
+    guid: a68c2849f91fd1742aea3a26ffc2a4fe
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: c2997e56739eaa24ebf2d8b77d585e80, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 488746f1e81a2a04686ad6b4c3054c27, type: 2}

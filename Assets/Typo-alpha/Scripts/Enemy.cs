@@ -15,14 +15,24 @@ public struct ColorTag
 {
     public string Tag { get; }
     public TextColor TextColor { get; set; }
+    public string hex { get; set; }
     public string Seperator { get; set; }
     public int Height { get; set; }
 
     public ColorTag(TextColor textColor, string seperator = "&SPT&")
     {
         TextColor = textColor != TextColor.undefined ? textColor : TextColor.red;
+        hex = "#ff0000";
         Seperator = seperator;
         Tag = "<color=" + TextColor + ">" + seperator + "</color>";
+        Height = Tag.Length - seperator.Length + 1;
+    }
+    public ColorTag(string hex = "#ff0000", string seperator = "&SPT&")
+    {
+        TextColor = TextColor.undefined;
+        this.hex = hex;
+        Seperator = seperator;
+        Tag = "<color=" + this.hex + ">" + seperator + "</color>";
         Height = Tag.Length - seperator.Length + 1;
     }
 }
@@ -89,7 +99,6 @@ public class Enemy : MonoBehaviour, IKeyboard
         foreach (ContactPoint2D contact in contacts)
         {
             Vector2 normal = contact.normal;
-            Debug.LogError(normal);
             forceDirection = new Vector2(Mathf.Abs(forceDirection.x) * normal.x, forceDirection.y);
             // rb.AddForce(normal * forceMagnitude * forceMagnitude, ForceMode2D.Impulse);
         }
@@ -119,28 +128,24 @@ public class Enemy : MonoBehaviour, IKeyboard
         // Check if the characters of the enemy is filled, prevent overflow error
         if (index >= Name.Length) return;
         // Check if the key clicked/touched is the corresponding character of the enemy
-        if (Name[index].ToString().ToUpper() == keyType.ToUpper())
+        if (Name[index].ToString().ToUpper() != keyType.ToUpper()) return;
+
+        if (index <= 0)
         {
-            if (index <= 0)
-            {
-                // if selected enemy in enemy manager is null asign this gameObject to the selected enemy
-                EnemyManager.self.SelectedEnemy = EnemyManager.self.SelectedEnemy == null ? gameObject : EnemyManager.self.SelectedEnemy;
-            }
-            // Check is this enemy is selected or not
-            if (EnemyManager.self.SelectedEnemy != gameObject) return;
-            this.GetComponentInChildren<SpriteRenderer>().color = Secondary;
-            // add the tag to the corresponding character
-            text.add_tag(Tag.Tag, Tag.Seperator, index * Tag.Height);
-            index++;
-            if (index >= Name.Length)
-            {
-                // what gonna happens to the Enemy
-                Debug.Log("enemy: " + Name + " is destroyed !");
-                EnemyManager.self.score = 1;
-                Destroy(gameObject);
-                // TODO: add destroy affect
-            }
+            // if selected enemy in enemy manager is null asign this gameObject to the selected enemy
+            EnemyManager.self.SelectedEnemy = EnemyManager.self.SelectedEnemy == null ? gameObject : EnemyManager.self.SelectedEnemy;
         }
+        // Check is this enemy is selected or not
+        if (EnemyManager.self.SelectedEnemy != gameObject) return;
+        this.GetComponentInChildren<SpriteRenderer>().color = Secondary;
+        // add the tag to the corresponding character
+        text.add_tag(Tag.Tag, Tag.Seperator, index * Tag.Height);
+        index++;
+        if (index < Name.Length) return;
+        // what gonna happens to the Enemy
+        EnemyManager.self.score = 1;
+        Destroy(gameObject);
+        // TODO: add destroy affect
     }
 
     public void Inintialize(string name, float speed, Vector3 target, TMP_FontAsset TMP_Font = null, TextColor tagColor = TextColor.undefined)
