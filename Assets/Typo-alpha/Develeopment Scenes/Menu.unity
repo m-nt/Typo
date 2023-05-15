@@ -528,7 +528,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.05
+  m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -649,7 +649,8 @@ MonoBehaviour:
   FarsiName: "\u0645\u0648\u062C"
   EnglishFont: {fileID: 11400000, guid: a3e2d2030179cb04ba7f5a861f57c799, type: 2}
   FarsiFont: {fileID: 11400000, guid: cc1bff1d7128b714898233c43b3fbce6, type: 2}
-  accelerationTreshold: 0
+  accelerationTreshold: 1
+  forceMagnitude: 0.5
   Primary: {r: 0.039215688, g: 0.03529412, b: 0.22352943, a: 1}
   Secondary: {r: 0.9176471, g: 0.7019608, b: 0.36078432, a: 1}
   actions:

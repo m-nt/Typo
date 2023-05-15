@@ -59,7 +59,7 @@ public class KeyboardCaptureV3 : MonoBehaviour
     {
         keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, false);
         if (!keyboard.active) keyboard.active = true;
-
+        keyboard.text = " ";
 
 
     }
@@ -71,16 +71,23 @@ public class KeyboardCaptureV3 : MonoBehaviour
         if (keyboard != null && keyboard.active)
         {
             // Check for mobile input
-            if (keyboard.text.Length > 0)
+            if (keyboard.text.Length > 1)
             {
                 // byte[] bytes = Encoding.ASCII.GetBytes(input);
                 // string hex = BitConverter.ToString(bytes).Replace("-", "");
                 // registeredKeys.Invoke(hex == "08" ? "BACKSPACE" : input);
                 // Handle the input
+                bool is_delete = is_delete_key(keyboard.text);
+                keyboard.text = keyboard.text.Replace(" ", "");
+                Debug.LogError("ANDROID: " + keyboard.text);
                 registeredKeys.Invoke(keyboard.text);
 
                 // Clear the keyboard
-                keyboard.text = "";
+                keyboard.text = " ";
+            }else if(keyboard.text.Length < 1){
+                Debug.LogError("BACKSPACE " + keyboard.text);
+                registeredKeys.Invoke("BACKSPACE");
+                keyboard.text = " ";
             }
         }
         else{
@@ -89,9 +96,9 @@ public class KeyboardCaptureV3 : MonoBehaviour
 #endif
 
         // Check for BackSpace key
-        if (Input.GetKey(KeyCode.Backspace))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            // Debug.Log(input);
+            Debug.LogError("keyCode : " + KeyCode.Backspace);
         }
 
         // Check for PC input
@@ -101,10 +108,27 @@ public class KeyboardCaptureV3 : MonoBehaviour
 
             if (!string.IsNullOrEmpty(input))
             {
+
                 byte[] bytes = Encoding.ASCII.GetBytes(input);
                 string hex = BitConverter.ToString(bytes).Replace("-", "");
-                registeredKeys.Invoke(hex == "08" ? "BACKSPACE" : input);
+                Debug.LogError("UNITY: " + hex);
+                bool is_delete_or_backspace = hex == "08" || is_delete_key(input);
+
+                registeredKeys.Invoke(is_delete_or_backspace ? "BACKSPACE" : input);
             }
         }
+    }
+
+    bool is_delete_key(string inputKey)
+    {
+        foreach (char c in inputKey)
+        {
+            Debug.LogError("INDEVISUAL CHARS: " + c);
+            if (c == '\b')
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

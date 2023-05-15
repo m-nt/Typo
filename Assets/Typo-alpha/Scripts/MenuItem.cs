@@ -18,6 +18,7 @@ public class MenuItem : MonoBehaviour, IKeyboard
     public string EnglishName, FarsiName;
     public TMP_FontAsset EnglishFont, FarsiFont;
     public float accelerationTreshold;
+    public float forceMagnitude; // The magnitude of the force to apply
     public Color Primary, Secondary;
     public UnityEvent actions;
     private string Name;
@@ -25,7 +26,6 @@ public class MenuItem : MonoBehaviour, IKeyboard
     private ColorTag Tag;
     private Rigidbody2D rb;
     private Vector2 forceDirection; // The direction of the force to apply
-    private float forceMagnitude; // The magnitude of the force to apply
     private int index;
 
     // Start is called before the first frame update
@@ -67,14 +67,16 @@ public class MenuItem : MonoBehaviour, IKeyboard
     public void AddForce(Vector2 direction)
     {
         forceDirection = direction.normalized;
-        rb.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
+        Debug.LogWarning(forceDirection);
+        rb.AddForce(forceDirection * forceMagnitude, ForceMode2D.Force);
     }
     // Update is called once per frame
     void FixedUpdate()
     {
+
         if (Input.acceleration.sqrMagnitude > accelerationTreshold)
         {
-            AddForce(Input.acceleration.normalized);
+            AddForce(Input.acceleration);
         }
 
     }
