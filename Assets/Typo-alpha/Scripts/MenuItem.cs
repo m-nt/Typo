@@ -38,14 +38,14 @@ public class MenuItem : MonoBehaviour, IKeyboard
         rb = GetComponent<Rigidbody2D>();
         Tag = new ColorTag("#" + ColorUtility.ToHtmlStringRGB(Secondary));
         text = GetComponent<RTLTextMeshPro3D>();
-        Name = MenuManager.self.language switch
+        Name = GlobalValues.Language switch
         {
             Language.EN => EnglishName,
             Language.FA => FarsiName,
             _ => FarsiName,
         };
         text.text = Name;
-        text.font = MenuManager.self.language switch
+        text.font = GlobalValues.Language switch
         {
             Language.EN => EnglishFont,
             Language.FA => FarsiFont,
@@ -94,7 +94,7 @@ public class MenuItem : MonoBehaviour, IKeyboard
         // Check if the characters of the enemy is filled, prevent overflow error
         if (index >= Name.Length) { ResetObject(); return; }
         // Check if the key is BackSpace then reset the state
-        if (keyType.ToUpper() == "BACKSPACE") { ResetObject(); return; }
+        if (keyType.ToUpper() == "BACKSPACE" && index > 0) { ResetObject(); return; }
         // Check if the key clicked/touched is the corresponding character of the enemy
         if (Name[index].ToString().ToUpper() != keyType.ToUpper()) return;
         // add the tag to the corresponding character

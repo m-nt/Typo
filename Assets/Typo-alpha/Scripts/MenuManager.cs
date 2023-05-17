@@ -14,7 +14,6 @@ public class MenuManager : MonoBehaviour
     public static MenuManager self;
     public CameraCollider _camera;
     public GameObject SelectedItem;
-    public Language language = Language.FA;
 
     void Awake()
     {
@@ -26,6 +25,10 @@ public class MenuManager : MonoBehaviour
     {
         _camera.SetColliders();
     }
+    IEnumerator InitiationEnumerator()
+    {
+        yield return new WaitForSeconds(1);
+    }
 
     // Update is called once per frame
     void Update()
@@ -34,7 +37,7 @@ public class MenuManager : MonoBehaviour
     }
     public void OpenNewWaveGame()
     {
-        SceneManager.LoadScene("Enemy V2" + (language == Language.EN ? "EN" : "FA"));
+        SceneManager.LoadScene("Enemy V2" + (GlobalValues.Language == Language.EN ? "EN" : "FA"));
     }
 }
 

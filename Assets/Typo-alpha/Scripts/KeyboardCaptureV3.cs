@@ -79,13 +79,11 @@ public class KeyboardCaptureV3 : MonoBehaviour
                 // Handle the input
                 bool is_delete = is_delete_key(keyboard.text);
                 keyboard.text = keyboard.text.Replace(" ", "");
-                Debug.LogError("ANDROID: " + keyboard.text);
                 registeredKeys.Invoke(keyboard.text);
 
                 // Clear the keyboard
                 keyboard.text = " ";
             }else if(keyboard.text.Length < 1){
-                Debug.LogError("BACKSPACE " + keyboard.text);
                 registeredKeys.Invoke("BACKSPACE");
                 keyboard.text = " ";
             }
@@ -95,11 +93,6 @@ public class KeyboardCaptureV3 : MonoBehaviour
         }
 #endif
 
-        // Check for BackSpace key
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            Debug.LogError("keyCode : " + KeyCode.Backspace);
-        }
 
         // Check for PC input
         if (Input.anyKeyDown)
@@ -111,7 +104,6 @@ public class KeyboardCaptureV3 : MonoBehaviour
 
                 byte[] bytes = Encoding.ASCII.GetBytes(input);
                 string hex = BitConverter.ToString(bytes).Replace("-", "");
-                Debug.LogError("UNITY: " + hex);
                 bool is_delete_or_backspace = hex == "08" || is_delete_key(input);
 
                 registeredKeys.Invoke(is_delete_or_backspace ? "BACKSPACE" : input);
@@ -123,7 +115,6 @@ public class KeyboardCaptureV3 : MonoBehaviour
     {
         foreach (char c in inputKey)
         {
-            Debug.LogError("INDEVISUAL CHARS: " + c);
             if (c == '\b')
             {
                 return true;
