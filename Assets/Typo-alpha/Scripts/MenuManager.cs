@@ -14,6 +14,8 @@ public class MenuManager : MonoBehaviour
     public static MenuManager self;
     public CameraCollider _camera;
     public GameObject SelectedItem;
+    public GameObject Analitics, MainMenu;
+
 
     void Awake()
     {
@@ -38,6 +40,16 @@ public class MenuManager : MonoBehaviour
     public void OpenNewWaveGame()
     {
         SceneManager.LoadScene("Enemy V2" + (GlobalValues.Language == Language.EN ? "EN" : "FA"));
+    }
+    public void OpenAnalytics(GameObject from)
+    {
+        Analitics.SetActive(true);
+        from.SetActive(false);
+    }
+    public void OpenMainMenu(GameObject from)
+    {
+        MainMenu.SetActive(true);
+        from.SetActive(false);
     }
 }
 

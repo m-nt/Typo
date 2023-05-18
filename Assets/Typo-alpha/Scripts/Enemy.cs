@@ -38,6 +38,7 @@ public struct ColorTag
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CircleCollider2D))]
 public class Enemy : MonoBehaviour, IKeyboard
 {
@@ -59,6 +60,7 @@ public class Enemy : MonoBehaviour, IKeyboard
     private IEnumerator TransformCoroutine;
     private ColorTag Tag;
     private int index;
+    private Animator _Animator;
 
 
     private Rigidbody2D rb;
@@ -68,13 +70,12 @@ public class Enemy : MonoBehaviour, IKeyboard
     // Start is called before the first frame update
     void Start()
     {
-        if (KeyboardCapture.self != null)
-            KeyboardCapture.self.registeredKeys.AddListener(OnKey);
-        if (KeyboardCaptureV2.self != null)
-            KeyboardCaptureV2.self.registeredKeys.AddListener(OnKeyBuiltIn);
+        KeyboardCapture.self?.registeredKeys.AddListener(OnKey);
+        KeyboardCaptureV2.self?.registeredKeys.AddListener(OnKeyBuiltIn);
         // Test, remove later
         // Inintialize("hello", 0.5f, new Vector3(0, -3, -5));
         rb = GetComponent<Rigidbody2D>();
+        _Animator = GetComponent<Animator>();
     }
 
     #endregion
@@ -109,12 +110,16 @@ public class Enemy : MonoBehaviour, IKeyboard
         if (other.gameObject.tag == "Finish")
         {
             if (EnemyManager.self.score > 0) EnemyManager.self.score = -1;
-            Destroy(gameObject);
+            _Animator.SetBool("is_destroy", true);
         }
     }
     #endregion
 
     #region Public Properties
+    public void DestroyThisGameObject()
+    {
+        Destroy(gameObject);
+    }
     public void OnKey(KeyboardType keyType)
     {
         KeyboardEventHandler(keyType.Key);
@@ -125,6 +130,7 @@ public class Enemy : MonoBehaviour, IKeyboard
     }
     void KeyboardEventHandler(string keyType)
     {
+
         // Check if the characters of the enemy is filled, prevent overflow error
         if (index >= Name.Length) return;
         // Check if the key clicked/touched is the corresponding character of the enemy
@@ -141,10 +147,12 @@ public class Enemy : MonoBehaviour, IKeyboard
         // add the tag to the corresponding character
         text.add_tag(Tag.Tag, Tag.Seperator, index * Tag.Height);
         index++;
+        CharPerSecond.Count++;
         if (index < Name.Length) return;
         // what gonna happens to the Enemy
         EnemyManager.self.score = 1;
-        Destroy(gameObject);
+        WordPerMinute.Count++;
+        _Animator.SetBool("is_destroy", true);
         // TODO: add destroy affect
     }
 

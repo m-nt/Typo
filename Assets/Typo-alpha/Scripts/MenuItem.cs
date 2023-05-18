@@ -53,6 +53,10 @@ public class MenuItem : MonoBehaviour, IKeyboard
         };
         gameObject.name = Name;
     }
+    void OnEnable()
+    {
+        Start();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
@@ -90,6 +94,7 @@ public class MenuItem : MonoBehaviour, IKeyboard
     }
     void KeyboardEventHandler(string keyType)
     {
+        if (!gameObject.activeInHierarchy) return;
 
         // Check if the characters of the enemy is filled, prevent overflow error
         if (index >= Name.Length) { ResetObject(); return; }
@@ -97,17 +102,26 @@ public class MenuItem : MonoBehaviour, IKeyboard
         if (keyType.ToUpper() == "BACKSPACE" && index > 0) { ResetObject(); return; }
         // Check if the key clicked/touched is the corresponding character of the enemy
         if (Name[index].ToString().ToUpper() != keyType.ToUpper()) return;
+        if (index <= 0)
+        {
+            // if selected enemy in enemy manager is null asign this gameObject to the selected enemy
+            MenuManager.self.SelectedItem = MenuManager.self.SelectedItem == null ? gameObject : MenuManager.self.SelectedItem;
+        }
+        // Check is this enemy is selected or not
+        if (MenuManager.self.SelectedItem != gameObject) return;
         // add the tag to the corresponding character
         text.add_tag(Tag.Tag, Tag.Seperator, index * Tag.Height);
         index++;
         if (index < Name.Length) return;
 
         // what gonna happens when the object is selected
+        MenuManager.self.SelectedItem = null;
         actions.Invoke();
     }
     void ResetObject()
     {
         Debug.Log(Name);
+        MenuManager.self.SelectedItem = null;
         index = 0;
         text.text = Name;
     }

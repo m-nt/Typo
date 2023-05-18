@@ -25,6 +25,16 @@ public class EnemyManager : MonoBehaviour
     public float DelayTreshold = 0.5f;
     public RTLTMPro.RTLTextMeshPro EnemyLeftText;
     public string EnemyLeftTextTemplate;
+    // public RTLTMPro.RTLTextMeshPro TotalCharactersText;
+    // public string TotalCharactersTextTemplate;
+    // public RTLTMPro.RTLTextMeshPro CharacterPerSecText;
+    // public string CharacterPerSecTextTemplate;
+    // public RTLTMPro.RTLTextMeshPro WordPerSecText;
+    // public string WordPerSecTextTemplate;
+    // public RTLTMPro.RTLTextMeshPro MissHitText;
+    // public string MissHitTextTemplate;
+    // public RTLTMPro.RTLTextMeshPro AccuracyText;
+    // public string AccuracyTextTemplate;
     public int EnemyLeft = 0; // how many enemies in current wave left
     private int EnemyCount = 0;
     public RTLTMPro.RTLTextMeshPro WaveText;
@@ -115,6 +125,11 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // CharacterPerSecText.text = CharacterPerSecTextTemplate + CharPerSecond.CPS;
+        // TotalCharactersText.text = TotalCharactersTextTemplate + CharPerSecond.TOTAL_CHAR;
+        // WordPerSecText.text = WordPerSecTextTemplate + WordPerMinute.WPM;
+        // MissHitText.text = MissHitTextTemplate + CharPerSecond.MISS_HITS;
+        // AccuracyText.text = AccuracyTextTemplate + CharPerSecond.ACCURACY;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             StopCoroutine(Spawner);
