@@ -80,7 +80,7 @@ public class KeyboardCaptureV3 : MonoBehaviour
                 bool is_delete = is_delete_key(keyboard.text);
                 keyboard.text = keyboard.text.Replace(" ", "");
                 registeredKeys.Invoke(keyboard.text);
-
+                CharPerSecond.TotalCount++;
                 // Clear the keyboard
                 keyboard.text = " ";
             }else if(keyboard.text.Length < 1){
@@ -105,7 +105,7 @@ public class KeyboardCaptureV3 : MonoBehaviour
                 byte[] bytes = Encoding.ASCII.GetBytes(input);
                 string hex = BitConverter.ToString(bytes).Replace("-", "");
                 bool is_delete_or_backspace = hex == "08" || is_delete_key(input);
-
+                if (!is_delete_or_backspace) CharPerSecond.TotalCount++;
                 registeredKeys.Invoke(is_delete_or_backspace ? "BACKSPACE" : input);
             }
         }

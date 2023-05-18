@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 using UnityEngine.UI;
+using System.Text;
+using System;
 
 public class KeyboardCaptureV2 : MonoBehaviour
 {
@@ -78,7 +80,7 @@ public class KeyboardCaptureV2 : MonoBehaviour
             {
                 // Handle the input
                 registeredKeys.Invoke(keyboard.text);
-
+                CharPerSecond.TotalCount++;
                 // Clear the keyboard
                 keyboard.text = "";
             }
@@ -95,8 +97,23 @@ public class KeyboardCaptureV2 : MonoBehaviour
 
             if (!string.IsNullOrEmpty(input))
             {
+                byte[] bytes = Encoding.ASCII.GetBytes(input);
+                string hex = BitConverter.ToString(bytes).Replace("-", "");
+                bool is_delete_or_backspace = hex == "08" || is_delete_key(input);
+                if (!is_delete_or_backspace) CharPerSecond.TotalCount++;
                 registeredKeys.Invoke(input);
             }
         }
+    }
+    bool is_delete_key(string inputKey)
+    {
+        foreach (char c in inputKey)
+        {
+            if (c == '\b')
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
