@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Typo/Dev Scenes/Keyboard Capture.unity
+    guid: 1ec26395c55126a4da58bac5518700f0
+  - enabled: 1
+    path: Assets/Typo/Dev Scenes/Keyboard Capture DDOL.unity
+    guid: ce158946bad04d14d9f2a27ac9a366d4
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 960c6b3e98cbac04fad5e8a6619b444a, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: b16a550958c075245a98b9b25651a535, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 98f26da1febb2c24882445588e432cab, type: 2}
