@@ -16,7 +16,9 @@ public class MenuItem : MonoBehaviour, IKeyboard
     public float accelerationTreshold;
     public float forceMagnitude; // The magnitude of the force to apply
     public Color Primary, Secondary;
+    public float RestartDelay = 1;
     public UnityEvent actions;
+
     private string Name;
     private RTLTextMeshPro3D text;
     private ColorTag Tag;
@@ -80,9 +82,9 @@ public class MenuItem : MonoBehaviour, IKeyboard
     {
         if (!gameObject.activeInHierarchy) return;
         // Check if the characters of the enemy is filled, prevent overflow error
-        if (index >= Name.Length) { ResetObject(); return; }
+        if (index >= Name.Length) { StartCoroutine(ResetObject(0.01f)); return; }
         // Check if the key is BackSpace then reset the state
-        if (key.ToUpper() == "BACKSPACE" && index > 0) { ResetObject(); return; }
+        if (key.ToUpper() == "BACKSPACE" && index > 0) { StartCoroutine(ResetObject(0.01f)); return; }
         // Check if the key clicked/touched is the corresponding character of the enemy
         if (Name[index].ToString().ToUpper() != key.ToUpper()) return;
         if (index <= 0)
@@ -100,9 +102,12 @@ public class MenuItem : MonoBehaviour, IKeyboard
         // what gonna happens when the object is selected
         MenuManager.self.SelectedItem = null;
         actions.Invoke();
+        StartCoroutine(ResetObject(RestartDelay));
     }
-    void ResetObject()
+
+    IEnumerator ResetObject(float delay)
     {
+        yield return new WaitForSeconds(delay);
         MenuManager.self.SelectedItem = null;
         index = 0;
         text.text = Name;

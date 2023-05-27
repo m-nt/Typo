@@ -18,7 +18,6 @@ public class MenuItemUI : MonoBehaviour, IKeyboard
     // Start is called before the first frame update
     void OnEnable()
     {
-        Debug.LogError(KeyboardCapture.self.name);
         KeyboardCapture.self?.registeredKeys.AddListener(OnKeyboardEventHandler);
         Tag = new ColorTag("#" + ColorUtility.ToHtmlStringRGB(Secondary));
         text = GetComponent<RTLTextMeshPro>();
@@ -26,8 +25,6 @@ public class MenuItemUI : MonoBehaviour, IKeyboard
     }
     public void OnKeyboardEventHandler(string key)
     {
-        Debug.LogError(key);
-
         if (!gameObject.activeInHierarchy) return;
         // Check if the characters of the Item is filled, prevent overflow error
         if (index >= Name.Length) { ResetObject(); return; }

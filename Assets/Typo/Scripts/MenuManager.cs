@@ -25,7 +25,7 @@ public class MenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // _camera.SetColliders();
+        _camera.SetColliders();
     }
     IEnumerator InitiationEnumerator()
     {
@@ -63,8 +63,14 @@ public class CameraCollider
     public void SetColliders()
     {
         float screenAspect = (float)Screen.width / (float)Screen.height;
+        if (!camera) camera = Camera.main;
         float cameraHeight = camera.orthographicSize * 2;
         float cameraWidth = cameraHeight * screenAspect;
+
+        if (!top) top = MenuManager.self.gameObject.AddComponent<BoxCollider2D>();
+        if (!down) down = MenuManager.self.gameObject.AddComponent<BoxCollider2D>();
+        if (!right) right = MenuManager.self.gameObject.AddComponent<BoxCollider2D>();
+        if (!left) left = MenuManager.self.gameObject.AddComponent<BoxCollider2D>();
 
         top.size = new Vector2(cameraWidth, cameraHeight / 6);
         down.size = new Vector2(cameraWidth, cameraHeight / 6);
