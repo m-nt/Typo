@@ -16,7 +16,7 @@ public class DictionaryWords : ScriptableObject
     public void Status()
     {
         Debug.Log("Dictionary Lenght: " + count);
-        Debug.Log("Dictionary Keys: " + words.list.Length);
+        Debug.Log("Dictionary Keys: " + words.Length);
     }
     public void LoadFiles()
     {
@@ -35,40 +35,31 @@ public class DictionaryWords : ScriptableObject
             foreach (KeyValuePair<string, object> entry in dict.data)
             {
                 words.Value = entry.Key;
-#if UNITY_EDITOR
-                UnityEditor.EditorUtility.SetDirty(this);
-#endif
+                words.ValueByLen = entry.Key;
             }
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
 
             Debug.Log("Loaded dictionary.");
         }
-        keys = words.list.Length;
+        keys = words.Length;
     }
 }
 [Serializable]
 public class DictionaryType
 {
-    public Dict[] list = new Dict[0];
+    Dict[] list = new Dict[0];
+    DictByLength[] list_by_len = new DictByLength[0];
 
-    public string[] Keys
+    public int Length
     {
         get
         {
-            string[] keys = new string[list.Length];
-            for (int i = 0; i < list.Length; i++)
-            {
-                keys[i] = list[i].key;
-            }
-            return keys;
+            return list.Length;
         }
     }
-    public string Key
-    {
-        set
-        {
-            Append(value);
-        }
-    }
+
     public string[] Values(string key)
     {
         for (int i = 0; i < list.Length; i++)
@@ -90,8 +81,24 @@ public class DictionaryType
                     return;
                 }
             }
-            this.Key = key;
-            this.Value = value;
+            AppendList(key);
+            Value = value;
+        }
+    }
+    public string ValueByLen
+    {
+        set
+        {
+            for (int i = 0; i < list_by_len.Length; i++)
+            {
+                if (list_by_len[i].len == value.Length)
+                {
+                    Append(value, ref list_by_len[i].value);
+                    return;
+                }
+            }
+            AppendListByLen(value.Length);
+            ValueByLen = value;
         }
     }
     public bool HasKey(string key)
@@ -102,7 +109,7 @@ public class DictionaryType
         }
         return false;
     }
-    public string RandomValue
+    private string RandomValue
     {
         get
         {
@@ -119,17 +126,44 @@ public class DictionaryType
             values[i] = RandomValue;
         }
     }
+    public void RandomValues(int count, int len, ref string[] values)
+    {
+        values = new string[count];
+        for (int i = 0; i < values.Length; i++)
+        {
+            RandomValues(len, out string value);
+            values[i] = value;
+        }
+    }
+    private void RandomValues(int worldLength, out string value)
+    {
+        for (int i = 0; i < list_by_len.Length; i++)
+        {
+            if (list_by_len[i].len != worldLength) continue;
+            int j = UnityEngine.Random.Range(0, list_by_len[i].value.Length);
+            value = list_by_len[i].value[j];
+            return;
+        }
+        value = RandomValue;
+    }
+
     void Append(string value, ref string[] array)
     {
         int index = array.Length;
         Array.Resize(ref array, array.Length + 1);
         array.SetValue(value, index);
     }
-    void Append(string key)
+    void AppendList(string key)
     {
         int index = list.Length;
         Array.Resize(ref list, list.Length + 1);
         list[index] = new Dict(key);
+    }
+    void AppendListByLen(int len)
+    {
+        int index = list_by_len.Length;
+        Array.Resize(ref list_by_len, list_by_len.Length + 1);
+        list_by_len[index] = new DictByLength(len);
     }
 
 }
@@ -145,6 +179,18 @@ public class Dict
         this.value = new string[0];
     }
 
+}
+[Serializable]
+public class DictByLength
+{
+    public int len;
+    public string[] value;
+
+    public DictByLength(int len)
+    {
+        this.len = len;
+        value = new string[0];
+    }
 }
 [Serializable]
 public class JsonTypes

@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour, IKeyboard
     {
         KeyboardCapture.self?.registeredKeys.AddListener(OnKeyboardEventHandler);
         // Test, remove later
-        Inintialize("hello", 0.5f, new Vector3(0, -3, -5));
+        // Inintialize("hello", 0.5f, new Vector3(0, -3, -5));
         rb = GetComponent<Rigidbody2D>();
         _Animator = GetComponent<Animator>();
     }
