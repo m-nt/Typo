@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: EN
   m_EditorClassIdentifier: 
   language: EN
-  filePath: Dictionaries/EN
-  count: 370101
+  filePath: DictionariesV2/EN
+  count: 10000
   keys: 26

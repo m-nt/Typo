@@ -130,8 +130,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 5.946}
-  m_SizeDelta: {x: 2.0085, y: 0.3}
+  m_AnchoredPosition: {x: 0, y: 6.0921}
+  m_SizeDelta: {x: 2, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4600498056544037696
 MonoBehaviour:
@@ -142,16 +142,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4600498056544037698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62c7fc306c779db47844c380d20c29f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fc394a93cdbe1a479031d3995273e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
-  TagColor: 1
+  speed: 1
+  TagColor: 3
   Primary: {r: 1, g: 1, b: 1, a: 1}
-  Secondary: {r: 0.13725491, g: 0.87058824, b: 0.41960785, a: 1}
+  Secondary: {r: 1, g: 0.70148605, b: 0, a: 1}
   forceDirection: {x: 0, y: 0}
   min_force_magnitude: 0.2
-  max_force_magnitude: 0.6
+  max_force_magnitude: 0.5
+  DestroyDelay: 1
 --- !u!114 &4600498056544037703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,8 +175,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uFEB3\uFEE0\uFE8E\uFEE1"
   m_isRightToLeft: 1
-  m_fontAsset: {fileID: 11400000, guid: cc1bff1d7128b714898233c43b3fbce6, type: 2}
-  m_sharedMaterial: {fileID: -7038563255578989187, guid: cc1bff1d7128b714898233c43b3fbce6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b52abda7c670590488c2c10d2e6e7cc4, type: 2}
+  m_sharedMaterial: {fileID: -7038563255578989187, guid: b52abda7c670590488c2c10d2e6e7cc4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -269,7 +270,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7038563255578989187, guid: cc1bff1d7128b714898233c43b3fbce6, type: 2}
+  - {fileID: -7038563255578989187, guid: b52abda7c670590488c2c10d2e6e7cc4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -361,7 +362,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.001095891, y: 0.0003092438}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -372,5 +373,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.934288, y: 0.25854167}
+  m_Size: {x: 0.45, y: 0.3}
   m_EdgeRadius: 0

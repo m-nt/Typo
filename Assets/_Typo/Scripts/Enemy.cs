@@ -8,6 +8,7 @@ using TMPro;
 [RequireComponent(typeof(RTLTextMeshPro3D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Enemy : MonoBehaviour, IKeyboard
 {
     # region Public Variables
@@ -74,6 +75,18 @@ public class Enemy : MonoBehaviour, IKeyboard
     {
         StartCoroutine(FinishLine(other));
     }
+    private void SetColliderSize()
+    {
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        Vector2 size = text.mesh.bounds.size;
+        // Set the collider size based on the text bounds
+        float preferredWidth = text.text.Length * 0.1f;
+        float preferredHeight = text.rectTransform.rect.height;
+        // Set the collider size based on the preferred text size
+        collider.size = new Vector2(Mathf.Abs(preferredWidth), Mathf.Abs(preferredHeight));
+        // collider.size = size;
+    }
+
 
     private IEnumerator FinishLine(Collider2D other)
     {
@@ -126,6 +139,7 @@ public class Enemy : MonoBehaviour, IKeyboard
         text = transform.GetComponent<RTLTextMeshPro3D>();
         text.text = Name.ToLower();
         text.font = TMP_Font == null ? text.font : TMP_Font;
+        SetColliderSize();
         forceDirection = (target - this.transform.position).normalized;
         forceMagnitude = Random.Range(min_force_magnitude, max_force_magnitude);
         this.speed = speed;

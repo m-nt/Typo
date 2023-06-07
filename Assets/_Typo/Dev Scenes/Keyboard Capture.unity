@@ -417,7 +417,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675799144}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.39793783, y: 2.0580027, z: 0.017845623}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -832,8 +832,8 @@ MonoBehaviour:
   - {fileID: 2095696076}
   - {fileID: 1807364469}
   - {fileID: 54635260}
-  Enemies: {fileID: 11400000, guid: a918475884852b84482e814d95a65381, type: 2}
-  EnemyPrefab: {fileID: 4600498056544037698, guid: 6dc0390dbaa6d8f428382e2595288df9, type: 3}
+  Enemies: {fileID: 11400000, guid: 6bbdf004dc6ed514b87298f30bc10982, type: 2}
+  EnemyPrefab: {fileID: 4600498056544037698, guid: 99766a03777779c4d90ba9ef93266357, type: 3}
   SpawnParent: {fileID: 675799145}
   SelectedEnemy: {fileID: 0}
   EnemyLeft: 0
@@ -841,7 +841,7 @@ MonoBehaviour:
   WaveDelay: 3
   DelaySteps: 0.01
   DelayTreshold: 0.5
-  EnemyLength: 20
+  EnemyLength: 3
   Wave: 0
   currentWave: []
 --- !u!1 &1670617060
